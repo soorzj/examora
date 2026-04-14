@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examora – Pricing & Plans</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--bg:#080c14;--bg2:#0d1321;--card:#111827;--border:#1e2d45;--accent:#00d4ff;--accent2:#7c3aed;--accent3:#f59e0b;--green:#10b981;--green2:#059669;--text:#e2e8f0;--muted:#64748b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:70px;background:rgba(8,12,20,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+.nav-links{display:flex;align-items:center;gap:.2rem;}
+.nav-links a{color:var(--muted);text-decoration:none;padding:.5rem 1rem;border-radius:8px;font-size:.9rem;font-weight:500;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent);background:rgba(0,212,255,.08);}
+.nav-actions{display:flex;gap:.75rem;align-items:center;}
+#user-badge{display:none;align-items:center;gap:.5rem;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);padding:.4rem 1rem;border-radius:20px;}
+#user-badge span{font-size:.85rem;color:var(--accent);}
+#logout-btn{background:none;border:none;cursor:pointer;color:var(--muted);font-size:.8rem;font-family:'DM Sans',sans-serif;}
+#logout-btn:hover{color:#ef4444;}
+.btn-nav{padding:.5rem 1.25rem;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;}
+
+/* HERO */
+.page-hero{padding:5rem 2rem 3.5rem;text-align:center;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(16,185,129,.09),transparent);pointer-events:none;}
+.hero-tag{display:inline-block;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:var(--green);padding:.3rem .9rem;border-radius:20px;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:800;margin-bottom:.75rem;}
+.hero-sub{color:var(--muted);max-width:520px;margin:0 auto;line-height:1.7;font-size:.97rem;}
+
+/* PLANS SECTION */
+.plans-wrap{max-width:1100px;margin:0 auto;padding:3rem 2rem 5rem;}
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.75rem;margin-bottom:2.5rem;}
+
+/* PLAN CARD */
+.plan-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:0;overflow:hidden;transition:all .35s;position:relative;display:flex;flex-direction:column;}
+.plan-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.45);}
+.plan-card.featured{border-color:var(--green);box-shadow:0 0 0 1px var(--green2), 0 20px 50px rgba(16,185,129,.15);}
+.plan-card.featured:hover{box-shadow:0 0 0 1px var(--green), 0 28px 60px rgba(16,185,129,.25);}
+
+.plan-top-bar{height:5px;}
+.plan-body{padding:2rem 2rem 1.5rem;flex:1;display:flex;flex-direction:column;}
+
+/* Price badge */
+.price-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .9rem;border-radius:20px;font-size:.8rem;font-weight:700;letter-spacing:.04em;margin-bottom:1.25rem;width:fit-content;}
+
+.plan-name{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.6rem;}
+.plan-tagline{font-size:.88rem;color:var(--muted);line-height:1.65;margin-bottom:1.5rem;flex:1;}
+
+/* features list */
+.features{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.75rem;}
+.features li{display:flex;align-items:flex-start;gap:.6rem;font-size:.875rem;color:var(--text);line-height:1.5;}
+.features li .check{width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;margin-top:.1rem;}
+
+/* CTA button */
+.plan-btn{display:block;text-align:center;padding:.85rem;border-radius:12px;font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;border:none;transition:all .25s;text-decoration:none;}
+.plan-btn:hover{transform:translateY(-2px);}
+
+/* POPULAR badge */
+.popular-badge{position:absolute;top:1.1rem;right:1.1rem;background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;font-size:.7rem;font-weight:700;padding:.25rem .65rem;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;}
+
+/* LIMITED TIME BANNER */
+.ltd-banner{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(16,185,129,.04));border:1px solid rgba(16,185,129,.25);border-radius:18px;padding:2rem 2.5rem;display:flex;gap:1.5rem;align-items:flex-start;margin-bottom:2.5rem;}
+.ltd-icon{font-size:2rem;flex-shrink:0;margin-top:.1rem;}
+.ltd-content h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--green);margin-bottom:.5rem;}
+.ltd-content p{font-size:.9rem;color:var(--muted);line-height:1.7;}
+.ltd-content p strong{color:var(--text);}
+.ltd-tag{display:inline-block;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:var(--green);padding:.2rem .65rem;border-radius:6px;font-size:.73rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem;}
+
+/* PAYMENT MODAL */
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:1rem;}
+.modal-backdrop.open{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;width:100%;max-width:480px;overflow:hidden;animation:slideUp .3s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.modal-header{padding:1.75rem 2rem 1.25rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;}
+.modal-header h2{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;}
+.modal-close{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;line-height:1;padding:.2rem;}
+.modal-close:hover{color:#ef4444;}
+.modal-body{padding:1.75rem 2rem;}
+.order-summary{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;}
+.order-row{display:flex;justify-content:space-between;align-items:center;font-size:.9rem;margin-bottom:.5rem;}
+.order-row:last-child{margin-bottom:0;padding-top:.5rem;border-top:1px solid var(--border);font-weight:700;font-size:1rem;}
+.order-row.total span:last-child{color:var(--green);}
+.pay-field{margin-bottom:1.1rem;}
+.pay-field label{display:block;font-size:.8rem;font-weight:500;color:var(--muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.05em;}
+.pay-field input,.pay-field select{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.7rem 1rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+.pay-field input:focus,.pay-field select:focus{border-color:var(--green);}
+.pay-field input::placeholder{color:var(--muted);}
+.pay-methods{display:flex;gap:.6rem;margin-bottom:1.25rem;}
+.pay-method{flex:1;border:1px solid var(--border);border-radius:10px;padding:.65rem;text-align:center;cursor:pointer;font-size:.8rem;transition:all .2s;}
+.pay-method.active{border-color:var(--green);background:rgba(16,185,129,.08);color:var(--green);}
+.field-row-2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.pay-btn{width:100%;padding:.9rem;border-radius:12px;background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;border:none;font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all .25s;margin-top:.5rem;}
+.pay-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(16,185,129,.35);}
+.secure-note{display:flex;align-items:center;gap:.4rem;justify-content:center;margin-top:.75rem;font-size:.75rem;color:var(--muted);}
+.modal-success{display:none;padding:2.5rem 2rem;text-align:center;}
+.modal-success .s-icon{font-size:3rem;margin-bottom:1rem;animation:pop .4s ease;}
+@keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.15)}100%{transform:scale(1)}}
+.modal-success h3{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.6rem;}
+.modal-success p{color:var(--muted);font-size:.9rem;line-height:1.65;}
+.modal-success .done-btn{display:inline-block;margin-top:1.5rem;padding:.75rem 2rem;border-radius:10px;background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;border:none;}
+
+/* FAQ section */
+.faq-section{background:var(--bg2);padding:4rem 2rem;}
+.faq-inner{max-width:700px;margin:0 auto;}
+.faq-inner h2{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:1.75rem;text-align:center;}
+.faq-item{border-bottom:1px solid var(--border);padding:1rem 0;cursor:pointer;}
+.faq-item:last-child{border-bottom:none;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-size:.92rem;font-weight:500;gap:1rem;}
+.faq-q .arr{color:var(--muted);transition:transform .3s;flex-shrink:0;}
+.faq-a{font-size:.86rem;color:var(--muted);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .35s,margin .35s;}
+.faq-item.open .arr{transform:rotate(180deg);}
+.faq-item.open .faq-a{max-height:160px;margin-top:.6rem;}
+
+footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;background:var(--bg2);}
+footer .logo-sm{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+footer p,footer a{font-size:.85rem;color:var(--muted);text-decoration:none;}
+footer a:hover{color:var(--accent);}
+.footer-links{display:flex;gap:1.5rem;}
+@media(max-width:768px){.nav-links{display:none;}.plans-grid{grid-template-columns:1fr;}.ltd-banner{flex-direction:column;}.field-row-2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Examora</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="exams.html">Exams</a>
+    <a href="pricing.html" class="active">Pricing</a>
+    <a href="creators.html">Team</a>
+    <a href="support.html">Support</a>
+  </div>
+  <div class="nav-actions">
+    <div id="user-badge"><span id="user-name-display"></span><button id="logout-btn" onclick="logout()">✕ Logout</button></div>
+    <div id="auth-buttons"><a href="auth.html" class="btn-nav">Login / Sign Up</a></div>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-tag">Pricing & Plans</div>
+  <h1>Simple, Transparent <span style="background:linear-gradient(135deg,var(--green),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Pricing</span></h1>
+  <p class="hero-sub">Start free. Upgrade when you need more. Every plan is designed to give you exactly what your exam journey demands.</p>
+</div>
+
+<div class="plans-wrap">
+
+  <!-- LIMITED TIME BANNER -->
+  <div class="ltd-banner">
+    <div class="ltd-icon">⚡</div>
+    <div class="ltd-content">
+      <div class="ltd-tag">Limited Time Offer</div>
+      <h3>Limited Time 1+1 Offers</h3>
+      <p>For a limited time, selecting either the <strong>"Mentor 1:1 Support"</strong> or <strong>"Counselling + Mentor 1:1 Support"</strong> plan will grant access to <strong>free registrations for 3 more exams</strong>. Only valid till we roll out more than <strong>5000 students</strong> this academic year.</p>
+    </div>
+  </div>
+
+  <!-- PLANS GRID -->
+  <div class="plans-grid">
+
+    <!-- FREE -->
+    <div class="plan-card">
+      <div class="plan-top-bar" style="background:linear-gradient(90deg,#64748b,#475569)"></div>
+      <div class="plan-body">
+        <div class="price-badge" style="background:rgba(100,116,139,.15);border:1px solid rgba(100,116,139,.3);color:#94a3b8">
+          FREE
+        </div>
+        <div class="plan-name">Starter</div>
+        <div class="plan-tagline">Upto 2 registrations are free for a limited time for all registered students. Human aided registration process with basic automated reminders and notifications.</div>
+        <ul class="features">
+          <li><span class="check" style="background:rgba(100,116,139,.15);color:#94a3b8">✓</span>Up to 2 exam registrations</li>
+          <li><span class="check" style="background:rgba(100,116,139,.15);color:#94a3b8">✓</span>Human aided registration process</li>
+          <li><span class="check" style="background:rgba(100,116,139,.15);color:#94a3b8">✓</span>Basic automated reminders</li>
+          <li><span class="check" style="background:rgba(100,116,139,.15);color:#94a3b8">✓</span>Notifications & alerts</li>
+          <li><span class="check" style="background:rgba(100,116,139,.12);color:#475569">✗</span><span style="color:var(--muted)">Hall ticket release reminders</span></li>
+          <li><span class="check" style="background:rgba(100,116,139,.12);color:#475569">✗</span><span style="color:var(--muted)">Result delivery via WhatsApp/phone</span></li>
+          <li><span class="check" style="background:rgba(100,116,139,.12);color:#475569">✗</span><span style="color:var(--muted)">Mentor support</span></li>
+        </ul>
+        <button class="plan-btn" style="background:rgba(100,116,139,.15);color:#94a3b8;border:1px solid rgba(100,116,139,.3)" onclick="selectPlan('free')">Get Started Free</button>
+      </div>
+    </div>
+
+    <!-- ₹250 EACH -->
+    <div class="plan-card">
+      <div class="plan-top-bar" style="background:linear-gradient(90deg,#00d4ff,#0ea5e9)"></div>
+      <div class="plan-body">
+        <div class="price-badge" style="background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.3);color:var(--accent)">
+          ₹250 <span style="font-weight:400;font-size:.7rem">/ exam</span>
+        </div>
+        <div class="plan-name">Per Registration</div>
+        <div class="plan-tagline">For more registrations beyond the free tier. Fully human operated with exam date and hall ticket release date reminders, result delivery via e-mail, WhatsApp or over phone.</div>
+        <ul class="features">
+          <li><span class="check" style="background:rgba(0,212,255,.12);color:var(--accent)">✓</span>All Starter features</li>
+          <li><span class="check" style="background:rgba(0,212,255,.12);color:var(--accent)">✓</span>Fully human operated process</li>
+          <li><span class="check" style="background:rgba(0,212,255,.12);color:var(--accent)">✓</span>Exam date reminders</li>
+          <li><span class="check" style="background:rgba(0,212,255,.12);color:var(--accent)">✓</span>Hall ticket release alerts</li>
+          <li><span class="check" style="background:rgba(0,212,255,.12);color:var(--accent)">✓</span>Result delivery by email</li>
+          <li><span class="check" style="background:rgba(0,212,255,.12);color:var(--accent)">✓</span>WhatsApp & phone updates</li>
+          <li><span class="check" style="background:rgba(0,212,255,.12);color:#1e40af">✗</span><span style="color:var(--muted)">Mentor 1:1 support</span></li>
+        </ul>
+        <button class="plan-btn" style="background:linear-gradient(135deg,#00d4ff,#0ea5e9);color:#000;" onclick="selectPlan('per-reg')">Choose Plan →</button>
+      </div>
+    </div>
+
+    <!-- ₹500 MENTOR -->
+    <div class="plan-card featured">
+      <div class="popular-badge">Most Popular</div>
+      <div class="plan-top-bar" style="background:linear-gradient(90deg,#10b981,#059669)"></div>
+      <div class="plan-body">
+        <div class="price-badge" style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:var(--green)">
+          ₹500
+        </div>
+        <div class="plan-name">Mentor 1:1 Support</div>
+        <div class="plan-tagline">Helps with any syllabus related matters, 24/7 availability, from the moment you pay till results are published and even further.</div>
+        <ul class="features">
+          <li><span class="check" style="background:rgba(16,185,129,.12);color:var(--green)">✓</span>All Per-Registration features</li>
+          <li><span class="check" style="background:rgba(16,185,129,.12);color:var(--green)">✓</span>Dedicated 1:1 Mentor assigned</li>
+          <li><span class="check" style="background:rgba(16,185,129,.12);color:var(--green)">✓</span>Syllabus-related guidance</li>
+          <li><span class="check" style="background:rgba(16,185,129,.12);color:var(--green)">✓</span>24/7 availability</li>
+          <li><span class="check" style="background:rgba(16,185,129,.12);color:var(--green)">✓</span>Support till results are published</li>
+          <li><span class="check" style="background:rgba(16,185,129,.12);color:var(--green)">✓</span><strong style="color:var(--green)">⚡ +3 free exam registrations (limited time)</strong></li>
+          <li><span class="check" style="background:rgba(16,185,129,.12);color:#047857">✗</span><span style="color:var(--muted)">Verified counsellor</span></li>
+        </ul>
+        <button class="plan-btn" style="background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;" onclick="selectPlan('mentor')">Get Mentor Support →</button>
+      </div>
+    </div>
+
+    <!-- ₹800 COUNSELLING + MENTOR -->
+    <div class="plan-card">
+      <div class="plan-top-bar" style="background:linear-gradient(90deg,#a78bfa,#7c3aed)"></div>
+      <div class="plan-body">
+        <div class="price-badge" style="background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);color:#a78bfa">
+          ₹800
+        </div>
+        <div class="plan-name">Counselling + Mentor 1:1</div>
+        <div class="plan-tagline">Added advantage of verified counsellors to get rid of exam stress and anxiety, prepare even better with full round coverage.</div>
+        <ul class="features">
+          <li><span class="check" style="background:rgba(124,58,237,.12);color:#a78bfa">✓</span>All Mentor 1:1 features</li>
+          <li><span class="check" style="background:rgba(124,58,237,.12);color:#a78bfa">✓</span>Verified counsellor assigned</li>
+          <li><span class="check" style="background:rgba(124,58,237,.12);color:#a78bfa">✓</span>Exam stress & anxiety support</li>
+          <li><span class="check" style="background:rgba(124,58,237,.12);color:#a78bfa">✓</span>Full-round preparation coverage</li>
+          <li><span class="check" style="background:rgba(124,58,237,.12);color:#a78bfa">✓</span>Mental wellness check-ins</li>
+          <li><span class="check" style="background:rgba(124,58,237,.12);color:#a78bfa">✓</span><strong style="color:#a78bfa">⚡ +3 free exam registrations (limited time)</strong></li>
+          <li><span class="check" style="background:rgba(124,58,237,.12);color:#a78bfa">✓</span>Priority support queue</li>
+        </ul>
+        <button class="plan-btn" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);color:#fff;" onclick="selectPlan('counselling')">Get Full Coverage →</button>
+      </div>
+    </div>
+
+  </div><!-- /plans-grid -->
+</div><!-- /plans-wrap -->
+
+<!-- FAQ -->
+<div class="faq-section">
+  <div class="faq-inner">
+    <h2>Frequently Asked Questions</h2>
+    <div id="faq-list"></div>
+  </div>
+</div>
+
+<footer>
+  <div><div class="logo-sm">Examora</div><p style="margin-top:.4rem">India's Premier Exam Registration Portal</p></div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="exams.html">Exams</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="creators.html">Team</a>
+    <a href="support.html">Support</a>
+  </div>
+  <p>© 2025 Examora · E-SATAS. All rights reserved.</p>
+</footer>
+
+<!-- PAYMENT MODAL -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div id="modal-pay-content">
+      <div class="modal-header">
+        <div>
+          <h2 id="modal-title">Complete Payment</h2>
+          <p style="color:var(--muted);font-size:.85rem;margin-top:.2rem" id="modal-subtitle">Secure checkout powered by Examora</p>
+        </div>
+        <button class="modal-close" onclick="document.getElementById('modal-backdrop').classList.remove('open')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="order-summary">
+          <div class="order-row"><span style="color:var(--muted)">Plan</span><span id="modal-plan-name" style="font-weight:600"></span></div>
+          <div class="order-row"><span style="color:var(--muted)">Student</span><span id="modal-student-name" style="color:var(--muted)">—</span></div>
+          <div class="order-row total"><span>Total</span><span id="modal-total"></span></div>
+        </div>
+        <div class="pay-field">
+          <label>Payment Method</label>
+          <div class="pay-methods">
+            <div class="pay-method active" id="pm-upi" onclick="setPayMethod('upi')">📱 UPI</div>
+            <div class="pay-method" id="pm-card" onclick="setPayMethod('card')">💳 Card</div>
+            <div class="pay-method" id="pm-nb" onclick="setPayMethod('nb')">🏦 Net Banking</div>
+          </div>
+        </div>
+        <!-- UPI fields -->
+        <div id="upi-fields">
+          <div class="pay-field">
+            <label>UPI ID</label>
+            <input type="text" id="upi-id" placeholder="yourname@upi">
+          </div>
+        </div>
+        <!-- Card fields -->
+        <div id="card-fields" style="display:none">
+          <div class="pay-field">
+            <label>Cardholder Name</label>
+            <input type="text" id="card-name" placeholder="Name on card">
+          </div>
+          <div class="pay-field">
+            <label>Card Number</label>
+            <input type="text" id="card-num" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" oninput="fmtCard(this)">
+          </div>
+          <div class="field-row-2">
+            <div class="pay-field"><label>Expiry</label><input type="text" id="card-exp" placeholder="MM / YY" maxlength="7"></div>
+            <div class="pay-field"><label>CVV</label><input type="password" id="card-cvv" placeholder="•••" maxlength="4"></div>
+          </div>
+        </div>
+        <!-- Net banking fields -->
+        <div id="nb-fields" style="display:none">
+          <div class="pay-field">
+            <label>Select Bank</label>
+            <select id="nb-bank">
+              <option value="">Choose your bank</option>
+              <option>State Bank of India</option>
+              <option>HDFC Bank</option>
+              <option>ICICI Bank</option>
+              <option>Axis Bank</option>
+              <option>Kotak Mahindra Bank</option>
+              <option>Punjab National Bank</option>
+              <option>Bank of Baroda</option>
+              <option>Canara Bank</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="pay-field" style="margin-top:.5rem">
+          <label>Email for Receipt</label>
+          <input type="email" id="pay-email" placeholder="you@email.com">
+        </div>
+        <button class="pay-btn" onclick="processPayment()">Pay Securely →</button>
+        <div class="secure-note">🔒 256-bit SSL encrypted · Payments are secure</div>
+      </div>
+    </div>
+    <div class="modal-success" id="modal-success">
+      <div class="s-icon">🎉</div>
+      <h3>Payment Successful!</h3>
+      <p id="success-detail">Your plan has been activated. Check your email for a receipt and next steps.</p>
+      <button class="done-btn" onclick="document.getElementById('modal-backdrop').classList.remove('open')">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Auth ──
+function checkAuth(){
+  const s=JSON.parse(localStorage.getItem('examora_session')||'null');
+  if(s){document.getElementById('user-badge').style.display='flex';document.getElementById('user-name-display').textContent=s.name.split(' ')[0];document.getElementById('auth-buttons').style.display='none';}
+}
+function logout(){localStorage.removeItem('examora_session');window.location.href='logout.html';}
+checkAuth();
+
+// ── Plans data ──
+const plans={
+  'free':{name:'Starter (Free)',price:0,priceStr:'Free'},
+  'per-reg':{name:'Per Registration',price:250,priceStr:'₹250'},
+  'mentor':{name:'Mentor 1:1 Support',price:500,priceStr:'₹500'},
+  'counselling':{name:'Counselling + Mentor 1:1',price:800,priceStr:'₹800'}
+};
+
+let activePlan=null;
+let activeMethod='upi';
+
+function selectPlan(key){
+  const sess=JSON.parse(localStorage.getItem('examora_session')||'null');
+  if(!sess){alert('Please login or sign up to continue.');window.location.href='auth.html';return;}
+  if(key==='free'){
+    // Store free plan and redirect
+    localStorage.setItem('examora_plan',JSON.stringify({plan:'free',activated:new Date().toISOString()}));
+    alert('Free plan activated! You can now register for up to 2 exams.');
+    window.location.href='exams.html';return;
+  }
+  activePlan=key;
+  const p=plans[key];
+  document.getElementById('modal-plan-name').textContent=p.name;
+  document.getElementById('modal-total').textContent=p.priceStr;
+  document.getElementById('modal-student-name').textContent=sess.name;
+  document.getElementById('pay-email').value=sess.email||'';
+  document.getElementById('modal-pay-content').style.display='block';
+  document.getElementById('modal-success').style.display='none';
+  document.getElementById('modal-backdrop').classList.add('open');
+}
+
+function closeModal(e){if(e.target===document.getElementById('modal-backdrop'))document.getElementById('modal-backdrop').classList.remove('open');}
+
+function setPayMethod(m){
+  activeMethod=m;
+  ['upi','card','nb'].forEach(x=>{
+    document.getElementById('pm-'+x).classList.toggle('active',x===m);
+    document.getElementById(x+'-fields').style.display=x===m?'block':'none';
+  });
+}
+
+function fmtCard(el){
+  let v=el.value.replace(/\D/g,'').slice(0,16);
+  el.value=v.match(/.{1,4}/g)?.join(' ')||v;
+}
+
+function processPayment(){
+  const email=document.getElementById('pay-email').value.trim();
+  if(!email){alert('Please enter your email for the receipt.');return;}
+  // Simulate payment
+  const btn=document.querySelector('.pay-btn');
+  btn.textContent='Processing…';btn.disabled=true;
+  setTimeout(()=>{
+    const p=plans[activePlan];
+    const record={plan:activePlan,planName:p.name,amount:p.price,email,activated:new Date().toISOString(),txnId:'TXN'+Date.now().toString().slice(-10)};
+    localStorage.setItem('examora_plan',JSON.stringify(record));
+    document.getElementById('modal-pay-content').style.display='none';
+    document.getElementById('modal-success').style.display='block';
+    document.getElementById('success-detail').textContent=`${p.name} activated. Receipt sent to ${email}. Transaction ID: ${record.txnId}`;
+    btn.textContent='Pay Securely →';btn.disabled=false;
+  },1800);
+}
+
+// ── FAQ ──
+const faqs=[
+  {q:'How does the free plan work?',a:'The first 2 exam registrations on Examora are completely free for all registered students. You benefit from human-aided assistance and basic automated reminders at no cost.'},
+  {q:'What does "human operated" mean?',a:'Our team personally reviews and processes your registration data, cross-checks it with the official exam specifications, and submits it on your behalf — far more reliable than a fully automated system.'},
+  {q:'When does the 1+1 limited time offer end?',a:'The bonus 3 free registrations for Mentor or Counselling plans are valid only until we reach 5,000 enrolled students this academic year. We recommend acting early.'},
+  {q:'Is the payment secure?',a:'Yes. All payments are processed over 256-bit SSL-encrypted connections. We do not store your card details. We support UPI, Net Banking, and Debit/Credit Cards.'},
+  {q:'Can I upgrade my plan later?',a:'Yes. You can upgrade from Free to any paid plan at any time. Simply visit the Pricing page, select a higher plan, and complete payment. Your previous data is retained.'},
+  {q:'What if I need a refund?',a:'Refund requests can be raised within 48 hours of payment if the service has not yet been initiated. Contact us at support@examora.in with your transaction ID.'},
+];
+const fl=document.getElementById('faq-list');
+faqs.forEach((f,i)=>{
+  fl.innerHTML+=`<div class="faq-item" id="faq${i}" onclick="this.classList.toggle('open')">
+    <div class="faq-q"><span>${f.q}</span><span class="arr">▼</span></div>
+    <div class="faq-a">${f.a}</div>
+  </div>`;
+});
+</script>
+</body>
+</html>

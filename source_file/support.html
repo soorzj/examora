@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examora – Customer Support</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--bg:#080c14;--bg2:#0d1321;--card:#111827;--border:#1e2d45;--accent:#00d4ff;--accent2:#7c3aed;--accent3:#f59e0b;--green:#10b981;--red:#ef4444;--text:#e2e8f0;--muted:#64748b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:70px;background:rgba(8,12,20,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+.nav-links a{color:var(--muted);text-decoration:none;padding:.5rem 1rem;border-radius:8px;font-size:.9rem;margin-right:.2rem;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent);background:rgba(0,212,255,.08);}
+#user-badge{display:none;align-items:center;gap:.5rem;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);padding:.4rem 1rem;border-radius:20px;}
+#user-badge span{font-size:.85rem;color:var(--accent);}
+#logout-btn{background:none;border:none;cursor:pointer;color:var(--muted);font-size:.8rem;font-family:'DM Sans',sans-serif;}
+#logout-btn:hover{color:#ef4444;}
+.btn-primary{padding:.5rem 1.25rem;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;}
+/* HERO */
+.page-hero{padding:5rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,212,255,.08),transparent);pointer-events:none;}
+.hero-tag{display:inline-block;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);color:var(--accent);padding:.3rem .9rem;border-radius:20px;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:800;margin-bottom:1rem;}
+.hero-sub{color:var(--muted);max-width:520px;margin:0 auto;line-height:1.7;}
+/* CONTACT CARDS */
+.contact-grid-wrap{padding:2rem;max-width:1100px;margin:0 auto;}
+.contact-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem;margin-bottom:3rem;}
+.contact-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.75rem;text-align:center;transition:all .3s;}
+.contact-card:hover{border-color:var(--accent);transform:translateY(-3px);}
+.c-icon{font-size:2rem;margin-bottom:1rem;}
+.c-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.3rem;}
+.c-val{font-size:.9rem;font-weight:600;color:var(--text);}
+.c-val a{color:var(--accent);text-decoration:none;}
+/* TICKET FORM */
+.ticket-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
+.ticket-form-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem;position:relative;overflow:hidden;}
+.ticket-form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.5rem;}
+.form-sub{color:var(--muted);font-size:.9rem;margin-bottom:1.75rem;}
+.field{margin-bottom:1.25rem;}
+label{display:block;font-size:.82rem;font-weight:500;color:var(--muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em;}
+input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:.75rem 1rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.95rem;transition:border-color .2s,box-shadow .2s;outline:none;}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,255,.1);}
+input::placeholder,textarea::placeholder{color:var(--muted);}
+select option{background:var(--card);}
+textarea{resize:vertical;min-height:120px;}
+.priority-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.5rem;}
+.priority-opt{border:1px solid var(--border);border-radius:8px;padding:.6rem;text-align:center;cursor:pointer;transition:all .2s;font-size:.82rem;}
+.priority-opt:hover{border-color:var(--accent);}
+.priority-opt.selected.low{border-color:#10b981;background:rgba(16,185,129,.1);color:#10b981;}
+.priority-opt.selected.med{border-color:#f59e0b;background:rgba(245,158,11,.1);color:#f59e0b;}
+.priority-opt.selected.high{border-color:#ef4444;background:rgba(239,68,68,.1);color:#ef4444;}
+.btn-submit{width:100%;padding:.9rem;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all .25s;margin-top:.5rem;}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,255,.3);}
+.alert{padding:.75rem 1rem;border-radius:10px;font-size:.88rem;margin-bottom:1rem;display:none;}
+.alert.success{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#6ee7b7;}
+/* FAQ SIDEBAR */
+.faq-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;}
+.faq-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:1.5rem;}
+.faq-item{border-bottom:1px solid var(--border);padding:1rem 0;cursor:pointer;}
+.faq-item:last-child{border-bottom:none;padding-bottom:0;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-size:.9rem;font-weight:500;gap:.5rem;}
+.faq-q .arrow{color:var(--muted);transition:transform .3s;flex-shrink:0;}
+.faq-a{font-size:.85rem;color:var(--muted);line-height:1.65;max-height:0;overflow:hidden;transition:max-height .3s,margin-top .3s;}
+.faq-item.open .arrow{transform:rotate(180deg);}
+.faq-item.open .faq-a{max-height:200px;margin-top:.75rem;}
+/* TICKET STATUS */
+.status-section{background:var(--bg2);padding:3rem 2rem;margin-top:0;}
+.status-inner{max-width:600px;margin:0 auto;text-align:center;}
+.status-inner h3{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700;margin-bottom:.5rem;}
+.status-inner p{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem;}
+.ticket-lookup{display:flex;gap:.75rem;max-width:420px;margin:0 auto;}
+.ticket-lookup input{flex:1;}
+.ticket-lookup button{padding:.75rem 1.25rem;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;}
+footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;background:var(--bg2);}
+footer .logo-sm{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+footer p,footer a{font-size:.85rem;color:var(--muted);text-decoration:none;}
+.footer-links{display:flex;gap:1.5rem;}
+@media(max-width:768px){.ticket-wrap{grid-template-columns:1fr;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Examora</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="exams.html">Exams</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="creators.html">Team</a>
+    <a href="support.html" class="active">Support</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:.75rem">
+    <div id="user-badge"><span id="user-name-display"></span><button id="logout-btn" onclick="logout()">✕ Logout</button></div>
+    <div id="auth-buttons"><a href="auth.html" class="btn-primary">Login / Sign Up</a></div>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-tag">Support</div>
+  <h1>We're Here to <span style="background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Help</span></h1>
+  <p class="hero-sub">Have a question or an issue? Submit a support ticket and our team will get back to you within 24 hours.</p>
+</div>
+
+<div class="contact-grid-wrap">
+  <div class="contact-cards">
+    <div class="contact-card">
+      <div class="c-icon">📧</div>
+      <div class="c-label">Email Us</div>
+      <div class="c-val"><a href="mailto:tawfiqkabeer@gmail.com">[support@examora.in]</a></div>
+    </div>
+    <div class="contact-card">
+      <div class="c-icon">📱</div>
+      <div class="c-label">Call / WhatsApp</div>
+      <div class="c-val">[+91 7012931521]</div>
+    </div>
+    <div class="contact-card">
+      <div class="c-icon">⏰</div>
+      <div class="c-label">Support Hours</div>
+      <div class="c-val">Mon–Sat, 9 AM – 8 PM IST</div>
+    </div>
+    <div class="contact-card">
+      <div class="c-icon">⚡</div>
+      <div class="c-label">Response Time</div>
+      <div class="c-val">Within 24 hours</div>
+    </div>
+  </div>
+
+  <div class="ticket-wrap">
+    <!-- TICKET FORM -->
+    <div class="ticket-form-card">
+      <h2>Submit a Support Ticket</h2>
+      <p class="form-sub">Fill in the details below and we'll get back to you as soon as possible.</p>
+      <div class="alert success" id="ticket-success"></div>
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" id="t_name" placeholder="Your full name">
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="t_email" placeholder="your@email.com">
+      </div>
+      <div class="field">
+        <label>Mobile Number</label>
+        <input type="tel" id="t_phone" placeholder="+91 98765 43210">
+      </div>
+      <div class="field">
+        <label>Exam Related To</label>
+        <select id="t_exam">
+          <option value="">Select exam (if applicable)</option>
+          <option>JEE Main & Advanced</option>
+          <option>NEET-UG</option>
+          <option>UPSC CSE</option>
+          <option>CAT</option>
+          <option>GATE</option>
+          <option>IBPS PO / SBI PO</option>
+          <option>CLAT</option>
+          <option>NDA</option>
+          <option>SSC CGL</option>
+          <option>CUET-UG</option>
+          <option>General / Account Issue</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Issue Category</label>
+        <select id="t_cat">
+          <option value="">Select category</option>
+          <option>Registration / Form Filling</option>
+          <option>Document Upload</option>
+          <option>Payment / Fees</option>
+          <option>Account / Login Issue</option>
+          <option>Data Correction</option>
+          <option>Technical Error</option>
+          <option>Deadline / Schedule Query</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Subject</label>
+        <input type="text" id="t_subject" placeholder="Brief description of your issue">
+      </div>
+      <div class="field">
+        <label>Describe Your Issue</label>
+        <textarea id="t_desc" placeholder="Please describe the problem in detail. Include any error messages, screenshots descriptions, or steps to reproduce the issue."></textarea>
+      </div>
+      <div class="field">
+        <label>Priority</label>
+        <div class="priority-grid">
+          <div class="priority-opt low" id="pri_low" onclick="setPriority('low')">🟢 Low</div>
+          <div class="priority-opt med" id="pri_med" onclick="setPriority('med')">🟡 Medium</div>
+          <div class="priority-opt high" id="pri_high" onclick="setPriority('high')">🔴 High / Urgent</div>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="submitTicket()">Submit Ticket →</button>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-card">
+      <div class="faq-title">Frequently Asked Questions</div>
+      <div id="faq-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TICKET LOOKUP -->
+<div class="status-section">
+  <div class="status-inner">
+    <h3>Check Ticket Status</h3>
+    <p>Already submitted a ticket? Enter your Ticket ID to check its current status.</p>
+    <div class="ticket-lookup">
+      <input type="text" id="ticket-id-input" placeholder="e.g. TKT-20250001">
+      <button onclick="lookupTicket()">Check Status</button>
+    </div>
+    <div id="ticket-result" style="margin-top:1rem;font-size:.9rem;color:var(--muted)"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo-sm">Examora</div>
+  <div class="footer-links"><a href="index.html">Home</a><a href="exams.html">Exams</a><a href="pricing.html">Pricing</a><a href="creators.html">Team</a><a href="support.html">Support</a></div>
+  <p>© 2025 Examora. All rights reserved.</p>
+</footer>
+
+<script>
+const faqs=[
+  {q:'How does Examora format my data?',a:'Our smart system reads the structured data you provide in the form and automatically maps it to the exact fields and formats required by each exam authority (NTA, UPSC, etc.).'},
+  {q:'Is my data safe on Examora?',a:'Yes. All data is encrypted in transit and at rest. We never share your personal information with third parties other than the exam authorities for the purpose of registration.'},
+  {q:'Can I register for multiple exams at once?',a:'Yes! You can register for as many exams as you like. Fill the form for each exam separately — your common data like name, address, and documents are automatically reused.'},
+  {q:'What if I make a mistake in the form?',a:'You can contact our support team using the ticket form above. We will correct the error before your application is submitted to the exam authority.'},
+  {q:'Where are my uploaded documents stored?',a:'Documents are stored securely in Google Drive linked to your account. You can manage, update, or delete them at any time from your profile.'},
+  {q:'How long does the registration process take?',a:'Filling the Examora form typically takes 10–15 minutes. Processing and submission to the exam authority takes 1–2 business days.'},
+  {q:'What payment methods are accepted?',a:'We support UPI, Net Banking, Debit/Credit Cards (Visa, Mastercard, RuPay), and wallets. Payment details vary per exam authority.'},
+  {q:'I forgot my password. What do I do?',a:'Click "Login", then "Forgot Password" to receive a reset link on your registered email. If you face further issues, submit a support ticket.'},
+];
+
+const faqList=document.getElementById('faq-list');
+faqs.forEach((f,i)=>{
+  faqList.innerHTML+=`<div class="faq-item" id="faq${i}" onclick="toggleFaq(${i})">
+    <div class="faq-q"><span>${f.q}</span><span class="arrow">▼</span></div>
+    <div class="faq-a">${f.a}</div>
+  </div>`;
+});
+function toggleFaq(i){
+  const item=document.getElementById('faq'+i);
+  item.classList.toggle('open');
+}
+
+let priority='med';
+function setPriority(p){
+  priority=p;
+  document.querySelectorAll('.priority-opt').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('pri_'+p).classList.add('selected');
+}
+setPriority('med');
+
+function submitTicket(){
+  const name=document.getElementById('t_name').value.trim();
+  const email=document.getElementById('t_email').value.trim();
+  const subject=document.getElementById('t_subject').value.trim();
+  const desc=document.getElementById('t_desc').value.trim();
+  if(!name||!email||!subject||!desc){alert('Please fill in Name, Email, Subject, and Description.');return;}
+  const ticketId='TKT-'+Date.now().toString().slice(-8);
+  const ticket={id:ticketId,name,email,
+    phone:document.getElementById('t_phone').value,
+    exam:document.getElementById('t_exam').value,
+    category:document.getElementById('t_cat').value,
+    subject,desc,priority,status:'Open',created:new Date().toISOString()
+  };
+  const tickets=JSON.parse(localStorage.getItem('examora_tickets')||'[]');
+  tickets.push(ticket);localStorage.setItem('examora_tickets',JSON.stringify(tickets));
+  const el=document.getElementById('ticket-success');
+  el.textContent=`✓ Ticket submitted! Your Ticket ID is ${ticketId}. We'll respond to ${email} within 24 hours.`;
+  el.style.display='block';
+  // Clear form
+  ['t_name','t_email','t_phone','t_subject','t_desc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('t_exam').value='';document.getElementById('t_cat').value='';
+  window.scrollTo(0,0);
+}
+
+function lookupTicket(){
+  const id=document.getElementById('ticket-id-input').value.trim();
+  const tickets=JSON.parse(localStorage.getItem('examora_tickets')||'[]');
+  const t=tickets.find(x=>x.id===id);
+  const res=document.getElementById('ticket-result');
+  if(t){res.innerHTML=`<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:left">
+    <strong style="color:var(--accent)">${t.id}</strong> — ${t.subject}<br>
+    <span style="color:var(--muted)">Status: <strong style="color:var(--green)">${t.status}</strong> · Priority: ${t.priority} · Submitted: ${new Date(t.created).toLocaleDateString('en-IN')}</span>
+  </div>`;}
+  else res.innerHTML='<span style="color:#f87171">Ticket not found. Please check the ID and try again.</span>';
+}
+
+function checkAuth(){
+  const s=JSON.parse(localStorage.getItem('examora_session')||'null');
+  if(s){document.getElementById('user-badge').style.display='flex';document.getElementById('user-name-display').textContent=s.name.split(' ')[0];document.getElementById('auth-buttons').style.display='none';}
+}
+function logout(){localStorage.removeItem('examora_session');window.location.href='logout.html';}
+checkAuth();
+
+// Pre-fill if logged in
+const sess=JSON.parse(localStorage.getItem('examora_session')||'null');
+if(sess){document.getElementById('t_name').value=sess.name;document.getElementById('t_email').value=sess.email;}
+</script>
+</body>
+</html>

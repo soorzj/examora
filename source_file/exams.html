@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examora – Choose Your Exam</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--bg:#080c14;--bg2:#0d1321;--card:#111827;--border:#1e2d45;--accent:#00d4ff;--accent2:#7c3aed;--accent3:#f59e0b;--green:#10b981;--text:#e2e8f0;--muted:#64748b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:70px;background:rgba(8,12,20,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+.nav-links{display:flex;align-items:center;gap:.2rem;}
+.nav-links a{color:var(--muted);text-decoration:none;padding:.5rem 1rem;border-radius:8px;font-size:.9rem;font-weight:500;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent);background:rgba(0,212,255,.08);}
+.nav-actions{display:flex;gap:.75rem;align-items:center;}
+#user-badge{display:none;align-items:center;gap:.5rem;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);padding:.4rem 1rem;border-radius:20px;}
+#user-badge span{font-size:.85rem;color:var(--accent);}
+#logout-btn{background:none;border:none;cursor:pointer;color:var(--muted);font-size:.8rem;padding:.2rem .5rem;border-radius:4px;font-family:'DM Sans',sans-serif;}
+#logout-btn:hover{color:#ef4444;}
+.btn-primary{padding:.5rem 1.25rem;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;}
+.page-header{padding:4rem 2rem 2rem;max-width:1100px;margin:0 auto;}
+.page-header h1{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;margin-bottom:.75rem;}
+.page-header p{color:var(--muted);font-size:1.05rem;max-width:560px;}
+.filter-bar{padding:0 2rem 2rem;max-width:1100px;margin:0 auto;display:flex;gap:.75rem;flex-wrap:wrap;}
+.filter-btn{padding:.45rem 1.1rem;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;transition:all .2s;}
+.filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,.08);}
+.exams-section{padding:0 2rem 4rem;max-width:1100px;margin:0 auto;}
+.exams-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem;}
+.exam-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:0;overflow:hidden;transition:all .3s;cursor:pointer;text-decoration:none;display:block;color:var(--text);}
+.exam-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.4);}
+.card-top{padding:1.75rem 1.75rem 1.25rem;position:relative;}
+.card-top::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;transition:opacity .3s;}
+.exam-card:hover .card-top::before{opacity:1;}
+.card-cat{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .8rem;border-radius:6px;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1rem;}
+.card-top h2{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.3rem;}
+.card-top .fullname{font-size:.85rem;color:var(--muted);margin-bottom:.75rem;}
+.card-top p{font-size:.88rem;color:var(--muted);line-height:1.65;}
+.card-meta{padding:1.25rem 1.75rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;}
+.meta-item{display:flex;flex-direction:column;gap:.15rem;}
+.meta-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+.meta-value{font-size:.85rem;font-weight:600;}
+.card-action{padding:0 1.75rem 1.75rem;}
+.register-btn{display:block;text-align:center;padding:.75rem;border-radius:10px;font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;text-decoration:none;transition:all .25s;border:none;cursor:pointer;width:100%;}
+/* exam specific themes */
+.jee   .card-top::before{background:linear-gradient(90deg,#00d4ff,#0ea5e9);opacity:.8;}
+.neet  .card-top::before{background:linear-gradient(90deg,#10b981,#059669);opacity:.8;}
+.upsc  .card-top::before{background:linear-gradient(90deg,#f59e0b,#d97706);opacity:.8;}
+.cat   .card-top::before{background:linear-gradient(90deg,#a78bfa,#7c3aed);opacity:.8;}
+.gate  .card-top::before{background:linear-gradient(90deg,#f43f5e,#e11d48);opacity:.8;}
+.ibps  .card-top::before{background:linear-gradient(90deg,#06b6d4,#0284c7);opacity:.8;}
+.clat  .card-top::before{background:linear-gradient(90deg,#fb923c,#ea580c);opacity:.8;}
+.nda   .card-top::before{background:linear-gradient(90deg,#84cc16,#65a30d);opacity:.8;}
+.ssc   .card-top::before{background:linear-gradient(90deg,#e879f9,#c026d3);opacity:.8;}
+.cuet  .card-top::before{background:linear-gradient(90deg,#fbbf24,#f59e0b);opacity:.8;}
+.jee .register-btn{background:linear-gradient(135deg,#00d4ff,#0ea5e9);color:#000;}
+.neet .register-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff;}
+.upsc .register-btn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;}
+.cat .register-btn{background:linear-gradient(135deg,#a78bfa,#7c3aed);color:#fff;}
+.gate .register-btn{background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;}
+.ibps .register-btn{background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;}
+.clat .register-btn{background:linear-gradient(135deg,#fb923c,#ea580c);color:#fff;}
+.nda .register-btn{background:linear-gradient(135deg,#84cc16,#65a30d);color:#000;}
+.ssc .register-btn{background:linear-gradient(135deg,#e879f9,#c026d3);color:#fff;}
+.cuet .register-btn{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;}
+.register-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.4);}
+footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;background:var(--bg2);}
+footer .logo-sm{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+footer p,footer a{font-size:.85rem;color:var(--muted);text-decoration:none;}
+.footer-links{display:flex;gap:1.5rem;}
+.hidden{display:none!important;}
+@media(max-width:768px){.nav-links{display:none;}.page-header h1{font-size:2rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Examora</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="exams.html" class="active">Exams</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="creators.html">Team</a>
+    <a href="support.html">Support</a>
+  </div>
+  <div class="nav-actions">
+    <div id="user-badge">
+      <span id="user-name-display"></span>
+      <button id="logout-btn" onclick="logout()">✕ Logout</button>
+    </div>
+    <div id="auth-buttons">
+      <a href="auth.html" class="btn-primary">Login / Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Select Your <span style="background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Exam</span></h1>
+  <p>Choose from India's top 10 competitive examinations. We handle all formatting and structuring automatically.</p>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterExams('all',this)">All Exams</button>
+  <button class="filter-btn" onclick="filterExams('engineering',this)">Engineering</button>
+  <button class="filter-btn" onclick="filterExams('medical',this)">Medical</button>
+  <button class="filter-btn" onclick="filterExams('civil',this)">Civil Services</button>
+  <button class="filter-btn" onclick="filterExams('management',this)">Management</button>
+  <button class="filter-btn" onclick="filterExams('banking',this)">Banking</button>
+  <button class="filter-btn" onclick="filterExams('defence',this)">Defence</button>
+  <button class="filter-btn" onclick="filterExams('law',this)">Law</button>
+  <button class="filter-btn" onclick="filterExams('other',this)">Other</button>
+</div>
+
+<div class="exams-section">
+  <div class="exams-grid" id="exams-grid">
+
+    <div class="exam-card jee" data-cat="engineering">
+      <div class="card-top">
+        <div class="card-cat" style="background:rgba(0,212,255,.12);color:#00d4ff">⚙️ Engineering</div>
+        <h2>JEE Main & Advanced</h2>
+        <div class="fullname">Joint Entrance Examination</div>
+        <p>Gateway to IITs, NITs, IIITs and other centrally funded technical institutions. One of the most competitive engineering entrance exams globally.</p>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item"><span class="meta-label">Conducting Body</span><span class="meta-value">NTA / IIT</span></div>
+        <div class="meta-item"><span class="meta-label">Eligibility</span><span class="meta-value">12th (PCM)</span></div>
+        <div class="meta-item"><span class="meta-label">Mode</span><span class="meta-value">Computer Based</span></div>
+      </div>
+      <div class="card-action"><button class="register-btn" onclick="goToForm('jee')">Register for JEE →</button></div>
+    </div>
+
+    <div class="exam-card neet" data-cat="medical">
+      <div class="card-top">
+        <div class="card-cat" style="background:rgba(16,185,129,.12);color:#10b981">🩺 Medical</div>
+        <h2>NEET-UG</h2>
+        <div class="fullname">National Eligibility cum Entrance Test</div>
+        <p>Mandatory exam for admission to MBBS, BDS, AYUSH, and Veterinary courses in India. Held once a year by NTA on behalf of NMC.</p>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item"><span class="meta-label">Conducting Body</span><span class="meta-value">NTA</span></div>
+        <div class="meta-item"><span class="meta-label">Eligibility</span><span class="meta-value">12th (PCB)</span></div>
+        <div class="meta-item"><span class="meta-label">Mode</span><span class="meta-value">Pen & Paper</span></div>
+      </div>
+      <div class="card-action"><button class="register-btn" onclick="goToForm('neet')">Register for NEET →</button></div>
+    </div>
+
+    <div class="exam-card upsc" data-cat="civil">
+      <div class="card-top">
+        <div class="card-cat" style="background:rgba(245,158,11,.12);color:#f59e0b">🏛️ Civil Services</div>
+        <h2>UPSC CSE</h2>
+        <div class="fullname">Civil Services Examination</div>
+        <p>Prestigious exam for IAS, IPS, IFS, and allied services. Three-stage process: Prelims, Mains, and Personality Test (Interview).</p>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item"><span class="meta-label">Conducting Body</span><span class="meta-value">UPSC</span></div>
+        <div class="meta-item"><span class="meta-label">Eligibility</span><span class="meta-value">Any Graduate</span></div>
+        <div class="meta-item"><span class="meta-label">Attempts</span><span class="meta-value">6 (General)</span></div>
+      </div>
+      <div class="card-action"><button class="register-btn" onclick="goToForm('upsc')">Register for UPSC →</button></div>
+    </div>
+
+    <div class="exam-card cat" data-cat="management">
+      <div class="card-top">
+        <div class="card-cat" style="background:rgba(124,58,237,.12);color:#a78bfa">💼 Management</div>
+        <h2>CAT</h2>
+        <div class="fullname">Common Admission Test</div>
+        <p>Premier MBA entrance exam accepted by all 20 IIMs and 1200+ B-schools. Tests Verbal Ability, Data Interpretation & Logical Reasoning, Quantitative Ability.</p>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item"><span class="meta-label">Conducting Body</span><span class="meta-value">IIM (rotating)</span></div>
+        <div class="meta-item"><span class="meta-label">Eligibility</span><span class="meta-value">Any Graduate</span></div>
+        <div class="meta-item"><span class="meta-label">Mode</span><span class="meta-value">Computer Based</span></div>
+      </div>
+      <div class="card-action"><button class="register-btn" onclick="goToForm('cat')">Register for CAT →</button></div>
+    </div>
+
+    <div class="exam-card gate" data-cat="engineering">
+      <div class="card-top">
+        <div class="card-cat" style="background:rgba(244,63,94,.12);color:#f43f5e">🔬 Engineering PG</div>
+        <h2>GATE</h2>
+        <div class="fullname">Graduate Aptitude Test in Engineering</div>
+        <p>Exam for admission to M.Tech / M.E. programs at NITs, IITs, IISc. Also used for PSU recruitment. Valid for 3 years.</p>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item"><span class="meta-label">Conducting Body</span><span class="meta-value">IIT / IISc</span></div>
+        <div class="meta-item"><span class="meta-label">Eligibility</span><span class="meta-value">B.Tech / B.E.</span></div>
+        <div class="meta-item"><span class="meta-label">Mode</span><span class="meta-value">Computer Based</span></div>
+      </div>
+      <div class="card-action"><button class="register-btn" onclick="goToForm('gate')">Register for GATE →</button></div>
+    </div>
+
+    <div class="exam-card ibps" data-cat="banking">
+      <div class="card-top">
+        <div class="card-cat" style="background:rgba(6,182,212,.12);color:#06b6d4">🏦 Banking</div>
+        <h2>IBPS PO / SBI PO</h2>
+        <div class="fullname">Institute of Banking Personnel Selection</div>
+        <p>Common recruitment process for Probationary Officers in nationalized banks and State Bank of India. Includes Prelims, Mains, and Interview.</p>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item"><span class="meta-label">Conducting Body</span><span class="meta-value">IBPS / SBI</span></div>
+        <div class="meta-item"><span class="meta-label">Eligibility</span><span class="meta-value">Any Graduate</span></div>
+        <div class="meta-item"><span class="meta-label">Mode</span><span class="meta-value">Computer Based</span></div>
+      </div>
+      <div class="card-action"><button class="register-btn" onclick="goToForm('ibps')">Register for IBPS/SBI →</button></div>
+    </div>
+
+    <div class="exam-card clat" data-cat="law">
+      <div class="card-top">
+        <div class="card-cat" style="background:rgba(251,146,60,.12);color:#fb923c">⚖️ Law</div>
+        <h2>CLAT</h2>
+        <div class="fullname">Common Law Admission Test</div>
+        <p>National level entrance test for admission to undergraduate (LLB) and postgraduate (LLM) law programs in 24 National Law Universities.</p>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item"><span class="meta-label">Conducting Body</span><span class="meta-value">Consortium of NLUs</span></div>
+        <div class="meta-item"><span class="meta-label">Eligibility</span><span class="meta-value">12th Pass</span></div>
+        <div class="meta-item"><span class="meta-label">Mode</span><span class="meta-value">Offline</span></div>
+      </div>
+      <div class="card-action"><button class="register-btn" onclick="goToForm('clat')">Register for CLAT →</button></div>
+    </div>
+
+    <div class="exam-card nda" data-cat="defence">
+      <div class="card-top">
+        <div class="card-cat" style="background:rgba(132,204,22,.12);color:#84cc16">🎖️ Defence</div>
+        <h2>NDA</h2>
+        <div class="fullname">National Defence Academy Exam</div>
+        <p>Entry to Army, Navy, and Air Force wings of NDA and Indian Naval Academy. Conducted twice a year by UPSC for 12th pass students.</p>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item"><span class="meta-label">Conducting Body</span><span class="meta-value">UPSC</span></div>
+        <div class="meta-item"><span class="meta-label">Eligibility</span><span class="meta-value">12th (Male/Female)</span></div>
+        <div class="meta-item"><span class="meta-label">Frequency</span><span class="meta-value">Twice a Year</span></div>
+      </div>
+      <div class="card-action"><button class="register-btn" onclick="goToForm('nda')">Register for NDA →</button></div>
+    </div>
+
+    <div class="exam-card ssc" data-cat="other">
+      <div class="card-top">
+        <div class="card-cat" style="background:rgba(232,121,249,.12);color:#e879f9">📋 Government Jobs</div>
+        <h2>SSC CGL</h2>
+        <div class="fullname">Staff Selection Commission – Combined Graduate Level</div>
+        <p>Gateway to Group B and C posts in various central government ministries, departments, and offices across India.</p>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item"><span class="meta-label">Conducting Body</span><span class="meta-value">SSC</span></div>
+        <div class="meta-item"><span class="meta-label">Eligibility</span><span class="meta-value">Any Graduate</span></div>
+        <div class="meta-item"><span class="meta-label">Mode</span><span class="meta-value">Computer Based</span></div>
+      </div>
+      <div class="card-action"><button class="register-btn" onclick="goToForm('ssc')">Register for SSC CGL →</button></div>
+    </div>
+
+    <div class="exam-card cuet" data-cat="other">
+      <div class="card-top">
+        <div class="card-cat" style="background:rgba(251,191,36,.12);color:#fbbf24">🎓 University</div>
+        <h2>CUET-UG</h2>
+        <div class="fullname">Common University Entrance Test – Undergraduate</div>
+        <p>Single entrance test for admission to undergraduate programs across all central universities in India including DU, JNU, BHU and more.</p>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item"><span class="meta-label">Conducting Body</span><span class="meta-value">NTA</span></div>
+        <div class="meta-item"><span class="meta-label">Eligibility</span><span class="meta-value">12th Pass</span></div>
+        <div class="meta-item"><span class="meta-label">Mode</span><span class="meta-value">Hybrid</span></div>
+      </div>
+      <div class="card-action"><button class="register-btn" onclick="goToForm('cuet')">Register for CUET →</button></div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="logo-sm">Examora</div>
+  <div class="footer-links"><a href="index.html">Home</a><a href="exams.html">Exams</a><a href="pricing.html">Pricing</a><a href="creators.html">Team</a><a href="support.html">Support</a></div>
+  <p>© 2025 Examora. All rights reserved.</p>
+</footer>
+
+<script>
+function checkAuth(){
+  const s=JSON.parse(localStorage.getItem('examora_session')||'null');
+  if(s){
+    document.getElementById('user-badge').style.display='flex';
+    document.getElementById('user-name-display').textContent=s.name.split(' ')[0];
+    document.getElementById('auth-buttons').style.display='none';
+  }
+}
+function logout(){localStorage.removeItem('examora_session');window.location.href='logout.html';}
+checkAuth();
+
+function filterExams(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.exam-card').forEach(card=>{
+    card.classList.toggle('hidden',cat!=='all'&&card.dataset.cat!==cat);
+  });
+}
+
+function goToForm(exam){
+  const s=localStorage.getItem('examora_session');
+  if(!s){alert('Please login or sign up to register for an exam.');window.location.href='auth.html';return;}
+  window.location.href='form.html?exam='+exam;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examora – Our Team</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--bg:#080c14;--bg2:#0d1321;--card:#111827;--border:#1e2d45;--accent:#00d4ff;--accent2:#7c3aed;--accent3:#f59e0b;--green:#10b981;--text:#e2e8f0;--muted:#64748b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:70px;background:rgba(8,12,20,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+.nav-links{display:flex;align-items:center;gap:.2rem;}
+.nav-links a{color:var(--muted);text-decoration:none;padding:.5rem 1rem;border-radius:8px;font-size:.9rem;font-weight:500;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent);background:rgba(0,212,255,.08);}
+.nav-actions{display:flex;gap:.75rem;align-items:center;}
+#user-badge{display:none;align-items:center;gap:.5rem;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);padding:.4rem 1rem;border-radius:20px;}
+#user-badge span{font-size:.85rem;color:var(--accent);}
+#logout-btn{background:none;border:none;cursor:pointer;color:var(--muted);font-size:.8rem;font-family:'DM Sans',sans-serif;}
+#logout-btn:hover{color:#ef4444;}
+.btn-primary{padding:.5rem 1.25rem;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;}
+.hero{padding:5rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(124,58,237,.1),transparent);pointer-events:none;}
+.hero-tag{display:inline-block;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);color:#a78bfa;padding:.3rem .9rem;border-radius:20px;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;margin-bottom:.4rem;}
+.hero-italic{font-style:italic;color:var(--muted);margin-bottom:.75rem;font-size:1rem;}
+.hero p{color:var(--muted);max-width:540px;margin:0 auto;line-height:1.7;}
+.team-section{padding:3rem 2rem 5rem;max-width:1160px;margin:0 auto;}
+/* Row 1 – Sooraj, Tawfiq (2 cols centred) */
+.row-top{display:flex;justify-content:center;gap:1.75rem;margin-top:2rem;margin-bottom:1.75rem;flex-wrap:wrap;}
+.row-top .creator-card{width:340px;flex-shrink:0;}
+/* Row 2 – Evan, Anna, Alby (3 cols) */
+.row-mid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem;margin-bottom:1.75rem;}
+/* Row 3 – Thufail, Subin (2 cols centred) */
+.row-bot{display:flex;justify-content:center;gap:1.75rem;flex-wrap:wrap;}
+.row-bot .creator-card{width:340px;flex-shrink:0;}
+@media(max-width:900px){.row-mid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:580px){.row-top,.row-bot{flex-direction:column;align-items:center;}.row-top .creator-card,.row-bot .creator-card{width:100%;}.row-mid{grid-template-columns:1fr;}}
+.creator-card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .35s;}
+.creator-card:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.5);}
+.card-accent-top{height:4px;}
+.photo-wrap{padding:1.75rem 1.75rem 1rem;display:flex;justify-content:center;}
+.photo-frame{width:110px;height:110px;border-radius:50%;position:relative;overflow:hidden;border:3px solid var(--border);transition:border-color .3s;flex-shrink:0;}
+.creator-card:hover .photo-frame{border-color:var(--accent);}
+.photo-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:#fff;position:relative;}
+.photo-placeholder-icon{position:absolute;bottom:0;left:0;right:0;height:38%;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font-size:.7rem;letter-spacing:.04em;color:rgba(255,255,255,.8);}
+.card-body{padding:0 1.75rem 1.75rem;text-align:center;}
+.creator-name{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:.4rem;}
+.creator-role{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:.3rem .85rem;border-radius:6px;display:inline-block;margin-bottom:1rem;}
+.creator-bio{font-size:.86rem;color:var(--muted);line-height:1.7;text-align:left;}
+.mission-section{background:var(--bg2);padding:4.5rem 2rem;}
+.mission-inner{max-width:820px;margin:0 auto;text-align:center;}
+.mission-tag{display:inline-block;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);color:var(--accent);padding:.3rem .9rem;border-radius:20px;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem;}
+.mission-inner h2{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:1.25rem;}
+.mission-inner p{color:var(--muted);line-height:1.85;font-size:.97rem;margin-bottom:1rem;}
+footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;background:var(--bg2);}
+footer .logo-sm{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+footer p,footer a{font-size:.85rem;color:var(--muted);text-decoration:none;}
+footer a:hover{color:var(--accent);}
+.footer-links{display:flex;gap:1.5rem;}
+.photo-frame img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){.nav-links{display:none;}.team-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Examora</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="exams.html">Exams</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="creators.html" class="active">Team</a>
+    <a href="support.html">Support</a>
+  </div>
+  <div class="nav-actions">
+    <div id="user-badge"><span id="user-name-display"></span><button id="logout-btn" onclick="logout()">✕ Logout</button></div>
+    <div id="auth-buttons"><a href="auth.html" class="btn-primary">Login / Sign Up</a></div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Our Team</div>
+  <h1>The Team – <span style="background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">E-SATAS</span></h1>
+  <p class="hero-italic">A team driven by student-first innovation</p>
+  <p>Seven passionate individuals who came together to eliminate one of India's most frustrating student problems — competitive exam registration.</p>
+</div>
+
+<div class="team-section">
+  <!-- Row 1: Tawfiq -->
+  <div class="row-top" id="row-top"></div>
+  <!-- Row 2: Sooraj, Evan, Anna -->
+  <div class="row-mid" id="row-mid"></div>
+  <!-- Row 3: Alby, Mohammed, Subin -->
+  <div class="row-bot" id="row-bot"></div>
+</div>
+
+<div class="mission-section">
+  <div class="mission-inner">
+    <div class="mission-tag">Our Mission</div>
+    <h2>Why We Built Examora</h2>
+    <p>Examora was born from personal frustration. Each of us has experienced the confusion of navigating multiple exam portals with different formats, requirements, and deadlines. We decided to build the solution we always wished existed — a single platform that understands your data and speaks the language of every exam authority in India.</p>
+    <p>Our goal is simple: ensure that no student in India misses an opportunity because of administrative complexity. The exams are hard enough. The registration should be easy.</p>
+  </div>
+</div>
+
+<footer>
+  <div><div class="logo-sm">Examora</div><p style="margin-top:.4rem">India's Premier Exam Registration Portal</p></div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="exams.html">Exams</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="creators.html">Team</a>
+    <a href="support.html">Support</a>
+  </div>
+  <p>© 2025 Examora · E-SATAS. All rights reserved.</p>
+</footer>
+
+<script>
+const team=[
+  {name:'Sooraj Krishna S',img:'SOORAJ.png',role:'Team Leader',bio:'Drives the project vision, makes key decisions, manages and monitors all services, and oversees overall project execution.',colors:['#00d4ff','#0ea5e9'],roleColor:'#00d4ff',roleBg:'rgba(0,212,255,.1)'},
+  
+  {name:'Tawfiq Kabeer',img:'TAWFIQ.jpeg',role:'Project Coordinator',bio:'Assists in planning, organizing and monitoring project activities thereby facilitating coordination among team members.',colors:['#a78bfa','#7c3aed'],roleColor:'#a78bfa',roleBg:'rgba(124,58,237,.1)'},
+  
+  {name:'Evan Paul Jacob',img:'IVAN.jpeg',role:'Finance Navigator',bio:'Manages budget, revenue, financial sustainability and undertakes financial reporting to the team.',colors:['#f59e0b','#d97706'],roleColor:'#f59e0b',roleBg:'rgba(245,158,11,.1)'},
+  
+  {name:'Anna Roy',img:'ANNA.jpeg',role:'Product Analyst & UX Strategist',bio:'Evaluates product functionality, understands user needs, and recommends improvements to enhance the overall platform experience.',colors:['#f43f5e','#e11d48'],roleColor:'#f43f5e',roleBg:'rgba(244,63,94,.1)'},
+  
+  {name:'Alby Benoy',img:'ALBY.jpeg',role:'Future Scope Planner',bio:'Analyzes limitations of the current system, identifies possible enhancements and works to improve overall performance of the system.',colors:['#10b981','#059669'],roleColor:'#10b981',roleBg:'rgba(16,185,129,.1)'},
+  
+  {name:'Mohammed Thufail',img:'THUFAIL.jpeg',role:'Content & Communication Lead',bio:'Creates project content for presentations and idea pitchings. Distributes the idea through talks and awareness programs.',colors:['#fb923c','#ea580c'],roleColor:'#fb923c',roleBg:'rgba(251,146,60,.1)'},
+  
+  {name:'Subin S',img:'SUBIN.jpeg',role:'Promotion Head',bio:'Promotes our services, manages outreach activities, and increases student awareness about Examora across campuses and communities.',colors:['#e879f9','#c026d3'],roleColor:'#e879f9',roleBg:'rgba(232,121,249,.1)'}
+];
+
+// Row 1: Sooraj (0), Tawfiq (1)
+// Row 2: Evan (2), Anna (3), Alby (4)
+// Row 3: Thufail (5), Subin (6)
+
+const rowTop = document.getElementById('row-top');
+const rowMid = document.getElementById('row-mid');
+const rowBot = document.getElementById('row-bot');
+
+function makeCard(m, delay) {
+  const div = document.createElement('div');
+  div.className = 'creator-card';
+  div.style.animation = `fadeUp .4s ease ${delay}s both`;
+  div.innerHTML = `
+    <div class="card-accent-top" style="background:linear-gradient(90deg,${m.colors[0]},${m.colors[1]})"></div>
+    <div class="photo-wrap">
+      <div class="photo-frame">
+        <img src="${m.img}" alt="${m.name}">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="creator-name">${m.name}</div>
+      <div class="creator-role" style="color:${m.roleColor};background:${m.roleBg}">${m.role}</div>
+      <div class="creator-bio">${m.bio}</div>
+    </div>`;
+  return div;
+}
+
+// Row 1 – Sooraj, Tawfiq
+[team[0], team[1]].forEach((m, i) => rowTop.appendChild(makeCard(m, i * 0.08)));
+
+// Row 2 – Evan, Anna, Alby
+[team[2], team[3], team[4]].forEach((m, i) => rowMid.appendChild(makeCard(m, 0.16 + i * 0.08)));
+
+// Row 3 – Thufail, Subin
+[team[5], team[6]].forEach((m, i) => rowBot.appendChild(makeCard(m, 0.40 + i * 0.08)));
+
+function checkAuth(){
+  const s=JSON.parse(localStorage.getItem('examora_session')||'null');
+  if(s){
+    document.getElementById('user-badge').style.display='flex';
+    document.getElementById('user-name-display').textContent=s.name.split(' ')[0];
+    document.getElementById('auth-buttons').style.display='none';
+  }
+}
+
+function logout(){
+  localStorage.removeItem('examora_session');
+  window.location.href='logout.html';
+}
+
+checkAuth();
+</script>
+</body>
+</html>

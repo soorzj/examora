@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examora – Logged Out</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--bg:#080c14;--card:#111827;--border:#1e2d45;--accent:#00d4ff;--accent2:#7c3aed;--text:#e2e8f0;--muted:#64748b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(124,58,237,.08),transparent);}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);}
+.card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:3rem;text-align:center;max-width:440px;width:90%;position:relative;z-index:1;animation:fadeUp .5s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.icon{font-size:3.5rem;margin-bottom:1.5rem;animation:wave 1s ease .3s both;}
+@keyframes wave{from{transform:rotate(-15deg) scale(.5)}50%{transform:rotate(10deg) scale(1.1)}to{transform:rotate(0deg) scale(1)}}
+h1{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;margin-bottom:.75rem;}
+p{color:var(--muted);line-height:1.7;margin-bottom:.5rem;font-size:.95rem;}
+.divider{height:1px;background:var(--border);margin:1.75rem 0;}
+.contact-mini{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.75rem;}
+.c-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;}
+.c-icon{font-size:1.3rem;margin-bottom:.3rem;}
+.c-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.2rem;}
+.c-val{font-size:.8rem;color:var(--text);}
+.c-val a{color:var(--accent);text-decoration:none;}
+.btn-row{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;}
+.btn-primary{padding:.75rem 1.5rem;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:all .25s;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,212,255,.3);}
+.btn-ghost{padding:.75rem 1.5rem;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.95rem;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s;}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.countdown{font-size:.8rem;color:var(--muted);margin-top:1.25rem;}
+.countdown span{color:var(--accent);font-weight:700;}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="grid"></div>
+<div class="card">
+  <div class="icon">👋</div>
+  <h1>You've been logged out</h1>
+  <p>Thanks for using <strong style="color:var(--accent)">Examora</strong>. Your session has been ended securely.</p>
+  <p style="font-size:.85rem">All your application data is saved and will be available when you log back in.</p>
+  <div class="divider"></div>
+  <div class="contact-mini">
+    <div class="c-item">
+      <div class="c-icon">📧</div>
+      <div class="c-label">Support Email</div>
+      <div class="c-val"><a href="tawfiqkabeer1@gmail.com">[support@examora.in]</a></div>
+    </div>
+    <div class="c-item">
+      <div class="c-icon">📱</div>
+      <div class="c-label">Helpline</div>
+      <div class="c-val">[+91 7012931521]</div>
+    </div>
+    <div class="c-item">
+      <div class="c-icon">⏰</div>
+      <div class="c-label">Support Hours</div>
+      <div class="c-val">Mon–Sat 9AM–8PM</div>
+    </div>
+    <div class="c-item">
+      <div class="c-icon">🌐</div>
+      <div class="c-label">Website</div>
+      <div class="c-val"><a href="index.html">examora.in</a></div>
+    </div>
+  </div>
+  <div class="btn-row">
+    <a href="auth.html" class="btn-primary">Login Again →</a>
+    <a href="index.html" class="btn-ghost">Go to Home</a>
+  </div>
+  <div class="countdown">Redirecting to homepage in <span id="timer">10</span> seconds...</div>
+</div>
+<script>
+let t=10;
+const interval=setInterval(()=>{
+  t--;document.getElementById('timer').textContent=t;
+  if(t<=0){clearInterval(interval);window.location.href='index.html';}
+},1000);
+</script>
+</body>
+</html>

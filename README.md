@@ -62,14 +62,14 @@ This repository contains the **v1.0 prototype** — a fully functional, 8-page c
 
 | Page | File | Description |
 |:--|:--|:--|
-| Homepage | `index.html` | Hero, animated stats, platform overview |
-| Login / Sign Up | `auth.html` | Email/password auth, password strength meter, session management |
-| Exam Selection | `exams.html` | 10 exam cards with category filters and per-exam accent themes |
-| Registration Form | `form.html` | Dynamic per-exam form engine with document upload and data save |
-| Pricing | `pricing.html` | Four-tier plan cards with simulated payment flow |
-| Support | `support.html` | Ticket system, FAQ accordion, ticket status lookup |
-| Team | `creators.html` | E-SATAS member cards with roles and bios |
-| Logout | `logout.html` | Session clear, contact info, 10-second auto-redirect |
+| Homepage | [index.html](source_file/index.html) | Hero, animated stats, platform overview |
+| Login / Sign Up | [auth.html](source_file/auth.html)  | Email/password auth, password strength meter, session management |
+| Exam Selection | [exams.html](source_file/exams.html)  | 10 exam cards with category filters and per-exam accent themes |
+| Registration Form | [form.html](source_file/form.html)  | Dynamic per-exam form engine with document upload and data save |
+| Pricing | [pricing.html](source_file/pricing.html)  | Four-tier plan cards with simulated payment flow |
+| Support | [support.html](source_file/support.html)  | Ticket system, FAQ accordion, ticket status lookup |
+| Team | [creators.html](source_file/creators.html)  | E-SATAS member cards with roles and bios |
+| Logout | [logout.html](source_file/logout.html)  | Session clear, contact info, 10-second auto-redirect |
 
 ---
 
